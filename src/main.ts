@@ -18,9 +18,27 @@ async function bootstrap() {
 
   app.enableCors({
     origin: "*",
+    // origin: (
+    //   origin: string | undefined,
+    //   callback: (err: Error | null, allow?: boolean) => void
+    // ) => {
+    //   const allowedOrigins = [
+    //     "http://localhost:3001",
+    //     "https://yourdomain.com",
+    //   ];
+
+    //   // Allow requests with no origin (like mobile apps or curl requests)
+    //   if (!origin) return callback(null, true);
+
+    //   if (allowedOrigins.includes(origin)) {
+    //     callback(null, true);
+    //   } else {
+    //     callback(new Error("Not allowed by CORS"));
+    //   }
+    // },
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
     credentials: true,
-    exposedHeaders: ["X-Access-Token", "X-Refresh-Token"],
+    exposedHeaders: ["X-Access-Token"],
   });
 
   app.setGlobalPrefix("api");

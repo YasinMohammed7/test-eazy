@@ -1,5 +1,5 @@
 import { Test, TestingModule } from "@nestjs/testing";
-import { INestApplication } from "@nestjs/common";
+import { INestApplication, ValidationPipe } from "@nestjs/common";
 import request from "supertest";
 import { App } from "supertest/types";
 import { AppModule } from "./../src/app.module";
@@ -13,14 +13,28 @@ describe("AppController (e2e)", () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
+    app.setGlobalPrefix("api");
+
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+      })
+    );
+
     await app.init();
   });
 
-  it("/ (GET)", () => {
+  it("/api/health (GET)", () => {
     return request(app.getHttpServer())
-      .get("/")
+      .get("/api/health")
       .expect(200)
       .expect("Hello World!");
+  });
+
+  it("/health (GET) - should return 404 without prefix", () => {
+    return request(app.getHttpServer()).get("/health").expect(404);
   });
 
   afterEach(async () => {
