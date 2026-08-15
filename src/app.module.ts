@@ -4,6 +4,7 @@ import { AppService } from "./app.service";
 import { ConfigModule } from "@nestjs/config";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { join } from "path";
+import { PoliciesModule } from "./policies/policies.module";
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { join } from "path";
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, "..", "public"),
     }),
+    PoliciesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
